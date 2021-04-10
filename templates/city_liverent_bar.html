@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>各省住宿场所出租率(柱状图)</title>
+
+</head>
+
+<!--  导入echarts和jquery包  -->
+<script src="https://cdn.bootcss.com/jquery/3.0.0/jquery.min.js"></script>
+<script src="https://assets.pyecharts.org/assets/echarts.min.js"></script>
+
+<body>
+<div id="main" style="height: 400px;width: 600px"></div>
+<script type="text/javascript">
+    function drew(data) {
+        console.log(data.yvalue)
+        var myChat = echarts.init(document.getElementById("main"))
+        var option = {
+
+            title: {
+                text: '各省住宿场所出租率',
+                textStyle: {
+                    color: 'red',
+                    fontStyle: 'itacl',
+                    fontWeight: 'bold'
+                },
+                subtext: '出租率前十的省份'
+            },
+            legend: {
+                data: ['出租率']
+            },
+            xAxis: {
+                name: '省份名称(按照出租率降序排序)',
+                data: data.xvalue,
+                axisLine: {
+                    show: true,
+                    data: data.xvalue,
+                    symbol: ['none', 'arrow'],
+                    symbolSize: [8, 8]
+                }
+            },
+            yAxis: {
+                name: '出租率',
+                axisLine: {
+                    show: true,
+                    symbol: ['none', 'arrow'],
+                    symbolSize: [8, 8]
+                }
+            },
+            series: [{
+                name: "出租率",
+                type: 'bar',
+                data: data.yvalue,
+            }]
+
+        }
+        myChat.setOption(option)
+    }
+
+    $.get('/city_liverent_bardata', function (data) {
+        drew(data)
+    }, 'json')
+</script>
+
+</body>
+</html>

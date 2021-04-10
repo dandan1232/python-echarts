@@ -1,35 +1,10 @@
-from flask import Flask, render_template
 import sqlalchemy
 import pandas as pd
 import numpy as np
 import pymysql
 import json
 
-# 创建服务
-app = Flask(__name__)
 
-# 访问根目录时，默认返回templates里的html文件
-@app.route('/bar', methods=['GET', 'POST'])
-def bar():
-    return render_template('bar.html')
-
-@app.route('/pie', methods=['GET', 'POST'])
-def pie():
-    return  render_template('pie.html')
-
-
-
-# 前端ajax请求，获取数据的路由
-@app.route('/bardata', methods=['GET', 'POST'])
-def bar_data():
-    return  get_bar_data()
-
-@app.route('/piedata', methods=['GET', 'POST'])
-def pie_data():
-    return  get_pie_data()
-
-
-# 定义方法获取数据
 def get_bar_data():
     # 从数据库里获取数据
     engine = sqlalchemy.create_engine('mysql+pymysql://root:ldd123789dd@localhost:3306/bigdata')
@@ -41,7 +16,7 @@ def get_bar_data():
 
     json_data = {
         'xvalue': xvalues.tolist(),
-        'yvalue1': yvalues.tolist(),
+        'yvalue': yvalues.tolist(),
     }
 
     json_string = json.dumps(json_data, ensure_ascii=False)
@@ -63,7 +38,16 @@ def get_pie_data():
     json_string = json.dumps(json_data_array, ensure_ascii=False)
     return json_string
 
+def get_city_liverent_bar_data():
+    engine =sqlalchemy.create_engine('mysql+pymysql://root:ldd123789dd@localhost:3306/bigdata')
+    data_frame =pd.read_sql_table(table_name='t_city_liverent',con=engine)
+    xvalues =data_frame['city'].values
+    yvalues =data_frame['rent'].values
 
+    json_data={
+        'xvalue':xvalues.tolist(),
+        'yvalue':yvalues.tolist(),
+    }
 
-if __name__ == '__main__':
-    app.run(debug=True, port='5000')
+    json_string =json.dumps(json_data,ensure_ascii=False)
+    return json_string
