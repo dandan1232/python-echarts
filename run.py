@@ -17,6 +17,15 @@ def pie():
 def city_liverent_bar():
     return render_template('city_liverent_bar.html')
 
+@app.route('/stacked_line',methods=['GET','POST'])
+def stacked_line():
+    return render_template('stacked_line.html')
+
+@app.route('/bar_line',methods=['GET','POST'])
+def bar_line():
+    return render_template('bar_line.html')
+
+
 
 
 # 前端ajax请求，获取数据的路由
@@ -31,6 +40,14 @@ def pie_data():
 @app.route('/city_liverent_bardata',methods=['GET','POST'])
 def city_liverent_bar_data():
     return get_data.get_city_liverent_bar_data()
+
+@app.route('/stacked_linedata',methods=['GET','POST'])
+def stacked_line_data():
+    return get_data.stacked_line_data()
+
+@app.route('/bar_linedata',methods=['GET','POST'])
+def bar_line_data():
+    return get_data.bar_line_data()
 
 
 if __name__ == '__main__':

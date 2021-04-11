@@ -23,7 +23,8 @@ read_sql_data=pandas.read_sql(sql=sql,con=sqlalchemy_db)
 
 
     # print("通过read_sql_query()函数读取数据库信息如下：\n",sql_query_data)
-print("通过read_sql()函数读取数据库信息如下：\n",read_sql_data)
-print(read_sql_data['price'][0])
+if __name__ == '__main__':
+    print("通过read_sql()函数读取数据库信息如下：\n",read_sql_data)
+    print(read_sql_data['price'][0])
 for i in range(0,4):
     print('id为',read_sql_data['id'][i],'name为',read_sql_data['name'][i])
